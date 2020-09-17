@@ -32,6 +32,7 @@ namespace API
             //addScoped is duration we want the depedency to available for use.
             services.AddControllers();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
         }
 

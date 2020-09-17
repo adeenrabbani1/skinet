@@ -10,7 +10,7 @@ namespace Infrastructure.Data
 {
     public class StoreContext : DbContext
     {
-        public StoreContext(DbContextOptions options) : base(options)
+        public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
         }
 
@@ -18,7 +18,8 @@ namespace Infrastructure.Data
         public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
 
-        //Personal note: We obviously need to tell the dbContext
+        //Personal note: We obviously need to tell the dbContext that we have
+        //custome configurations to attach.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

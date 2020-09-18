@@ -21,7 +21,7 @@ namespace Infrastructure.Data
             //now we take care of includes.
 
             query = specs.Includes.Aggregate(query, (current, include) => current.Include(include));
-            return query;
+            return query; //full query will criteria and all specs included, ready to fetch the data
         }
 
 

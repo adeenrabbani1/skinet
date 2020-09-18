@@ -13,7 +13,7 @@ namespace Core.Interfaces
         Task<IReadOnlyList<T>> ListAllAsync();
 
         Task<T> GetEntityBySpec(ISpecification<T> spec);
-        Task<IReadOnlyCollection<T>> ListAsync(ISpecification<T> spec);
+        Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
 
 
     }

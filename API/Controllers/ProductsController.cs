@@ -8,12 +8,13 @@ using AutoMapper;
 using API.Dtos;
 using System.Linq;
 using System.Collections.Generic;
+using API.Errors;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+
+    public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<Product> _productRepo;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
@@ -43,10 +44,13 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        //to tell the documentation lib, what it produces.
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> getProduct(int id)
         {
             var spec = new ProductWithBrandAndTypesSpecification(id); //criteria will be set
             var product = await _productRepo.GetEntityBySpec(spec); //data access code in the cotroller.P
+            if (product == null) return NotFound(new ApiResponse(400));
             return Ok(_mapper.Map<Product, ProductDto>(product));
 
         }

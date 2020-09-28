@@ -10,6 +10,8 @@ using System.Linq;
 using System.Collections.Generic;
 using API.Errors;
 using Microsoft.AspNetCore.Http;
+using System;
+using API.helpers;
 
 namespace API.Controllers
 {
@@ -35,11 +37,15 @@ namespace API.Controllers
 
         //here we can make the routes 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductDto>>> getProducts()
+        public async Task<ActionResult<Pagination<ProductDto>>> getProducts([FromQuery] ProductsSpecParams ProductParams)
         {
-            var spec = new ProductWithBrandAndTypesSpecification();
+            var spec = new ProductWithBrandAndTypesSpecification(ProductParams);
+            var countSpec = new ProductsWithFiltersSpecification(ProductParams);
             var products = await _productRepo.ListAsync(spec);
-            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products));
+            var count = await _productRepo.CountAsync(countSpec);
+            var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products);
+            return Ok(new Pagination<ProductDto>(ProductParams.PageIndex, ProductParams.PageSize,
+            count, data));
 
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Core.Entities;
 using Core.Specifications;
@@ -17,6 +18,19 @@ namespace Infrastructure.Data
             if (specs.Criteria != null)
             {
                 query = query.Where(specs.Criteria); //applies criteria if any
+
+            }
+            if (specs.orderBy != null)
+            {
+                query = query.OrderBy(specs.orderBy); //applies criteria if any
+            }
+            if (specs.orderByDesc != null)
+            {
+                query = query.OrderByDescending(specs.orderByDesc); //applies criteria if any
+            }
+            if (specs.isPagingEnabled)
+            {
+                query = query.Skip(specs.skip).Take(specs.take);
             }
             //now we take care of includes.
 

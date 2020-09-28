@@ -36,12 +36,20 @@ namespace Infrastructure.Data
         {
             return await ApplySpecifications(spec).ToListAsync();
         }
+        //for getting the count of the items that matched the filters.
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecifications(spec).CountAsync();
+        }
 
 
-        //helper method 
+        //helper method that applies criteria and includes and
+        //return back the queryable query which then can be executed.
         private IQueryable<T> ApplySpecifications(ISpecification<T> specs)
         {
             return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), specs);
         }
+
+
     }
 }

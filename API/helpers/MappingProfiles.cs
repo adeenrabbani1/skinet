@@ -8,8 +8,8 @@ namespace API.helpers
     {
         public MappingProfiles()
         {
-            CreateMap<Product, ProductDto>().ForMember(p => p.ProductBrand, o => o.MapFrom(s => s.Name))
-            .ForMember(p => p.ProductType, o => o.MapFrom(s => s.Name))
+            CreateMap<Product, ProductDto>().ForMember(p => p.ProductBrand, o => o.MapFrom(s => s.ProductBrand.Name))
+            .ForMember(p => p.ProductType, o => o.MapFrom(s => s.ProductType.Name))
             .ForMember(p => p.PictureUrl, o => o.MapFrom<ProductUrlResolver>());
 
         }

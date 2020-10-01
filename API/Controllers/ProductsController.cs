@@ -40,7 +40,7 @@ namespace API.Controllers
         public async Task<ActionResult<Pagination<ProductDto>>> getProducts([FromQuery] ProductsSpecParams ProductParams)
         {
             var spec = new ProductWithBrandAndTypesSpecification(ProductParams);
-            var countSpec = new ProductsWithFiltersSpecification(ProductParams);
+            var countSpec = new ProductsWithFiltersSpecification(ProductParams); //to send the count of items that fulfil the query.
             var products = await _productRepo.ListAsync(spec);
             var count = await _productRepo.CountAsync(countSpec);
             var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products);
